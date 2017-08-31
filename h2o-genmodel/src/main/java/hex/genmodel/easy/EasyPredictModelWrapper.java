@@ -253,7 +253,7 @@ public class EasyPredictModelWrapper implements java.io.Serializable {
     output = m.score0(rawData, output);
 
     AutoEncoderModelPrediction p = new AutoEncoderModelPrediction();
-    p.original = expandRawData(rawData, size);
+    p.original = expandRawData(rawData, output.length);
     p.reconstructed = output;
     p.reconstructedRowData = reconstructedToRowData(output);
 

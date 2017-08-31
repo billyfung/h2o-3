@@ -10,7 +10,6 @@ import water.fvec.Frame;
 import water.fvec.NFSFileVec;
 import water.fvec.Vec;
 import water.parser.ParseDataset;
-import water.util.FileUtils;
 import water.util.Log;
 
 public class DeepLearningAutoEncoderCategoricalTest extends TestUtil {
@@ -81,7 +80,7 @@ public class DeepLearningAutoEncoderCategoricalTest extends TestUtil {
     // Create reconstruction
     Log.info("Creating full reconstruction.");
     final Frame recon_train = mymodel.score(train);
-    Assert.assertTrue(mymodel.testJavaScoring(train,recon_train,1e-5));
+    Assert.assertTrue(mymodel.testJavaScoring(train,recon_train,1e-8,1e-5));
 
     Frame df1 = mymodel.scoreDeepFeatures(train, 0);
     Assert.assertTrue(df1.numCols() == 10);

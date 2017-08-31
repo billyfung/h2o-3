@@ -255,7 +255,7 @@ def javapredict(algo, equality, train, test, x, y, compile_only=False, separator
         predictions2 = h2o.upload_file(path=out_pojo_csv, header=headerHere)
         print("Pojo predictions saved in {0}".format(out_pojo_csv))
 
-        print("Comparing predictions between H2O and Java POJO")
+        print("Comparing predictions between H2O and Java POJO or MOJO")
         # Dimensions
         hr, hc = predictions.dim
         pr, pc = predictions2.dim

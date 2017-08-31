@@ -717,3 +717,75 @@ compare_tables <- function(table1, table2, tol=1e-6) {
     }
   }
 }
+
+#----------------------------------------------------------------------
+# This function will generate a random dataset for regression/binomial
+# and multinomial.  Copied from Pasha.
+#
+# Parameters:  response_type should be "regression", "binomial" or "multinomial"
+#----------------------------------------------------------------------
+random_dataset <-
+  function(response_type,
+           max_row = 25000,
+           min_row = 15000,
+           max_col = 100,
+           min_col = 20,
+           testrow = 1000) {
+    num_rows <- round(runif(1, min_row, max_row))
+    num_cols <- round(runif(1, min_col, max_col))
+    if (response_type == 'regression') {
+      response_num = 1
+    } else if (response_type == 'binomial') {
+      response_num = 2
+    } else {
+      # assume all else as multinomial
+      response_num = round(runif(1, 3, 10))
+    }
+    
+    # generate all the fractions
+    fractions <-
+      c(runif(1, 0, 1),
+        runif(1, 0, 1),
+        runif(1, 0, 1),
+        runif(1, 0, 1),
+        runif(1, 0, 1))
+    fractions <- fractions / sum(fractions)
+    random_frame <-
+      h2o.createFrame(
+        rows = num_rows,
+        cols = num_cols,
+        randomize = TRUE,
+        has_response = TRUE,
+        categorical_fraction = fractions[1],
+        integer_fraction = fractions[2],
+        binary_fraction = fractions[3],
+        time_fraction = fractions[4],
+        string_fraction = 0,
+        response_factors = response_num,
+        missing_fraction = runif(1, 0, 0.05)
+      )
+    
+    return(random_frame)
+  }
+
+#----------------------------------------------------------------------
+# This function will generate a random neural network in the form of
+# a hidden layer matrix specifying the number of nodes per layer.
+#
+# Parameters:  actFunc is the activation function of the neural network
+#----------------------------------------------------------------------
+random_NN <- function(actFunc, max_layers, max_node_number) {
+  # generate random neural network architecture
+  no_hidden_layers <- round(runif(1, 1, max_layers))
+  hidden <- c()
+  hiddenDropouts <- c()
+  for (ind in 1:no_hidden_layers) {
+    hidden <- c(hidden, round(runif(1, 1, max_node_number)))
+    
+    if (grepl('Dropout', actFunc, fixed = TRUE)) {
+      hiddenDropouts <- c(hiddenDropouts, runif(1, 0, 0.1))
+      
+    }
+  }
+  return(list("hidden" = hidden, "hiddenDropouts" = hiddenDropouts))
+}

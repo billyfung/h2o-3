@@ -495,7 +495,7 @@ public class DeepLearningTest extends TestUtil {
       hex.ModelMetrics.getFromDKV(model, test);
 
       // Build a POJO, validate same results
-      assertTrue(model.testJavaScoring(test, res, 1e-5));
+      assertTrue(model.testJavaScoring(test, res, 1e-8,1e-5));
 
     } finally {
       if (frTrain!=null) frTrain.remove();
@@ -557,7 +557,10 @@ public class DeepLearningTest extends TestUtil {
       for (int i = 0; i < N; ++i) {
         Log.info(models[i]._output._training_metrics.cm().table().toString());
         Assert.assertEquals(models[i]._output._training_metrics._MSE, models[0]._output._training_metrics._MSE, 1e-6);
+       // assertTrue(models[i].testJavaScoring(test, res, 1e-5));
       }
+
+
 
     }finally{
       for (int i=0; i<N; ++i)

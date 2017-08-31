@@ -1747,8 +1747,8 @@ public abstract class Model<M extends Model<M,P,O>, P extends Model.Parameters, 
         RowData rowData = new RowData();
         BufferedString bStr = new BufferedString();
         for (int row = 0; row < fr.numRows(); row++) { // For all rows, single-threaded
-          if (rnd.nextDouble() >= fraction) continue;
-          if (genmodel.getModelCategory() == ModelCategory.AutoEncoder) continue;
+        //  if (rnd.nextDouble() >= fraction) continue;
+       //   if (genmodel.getModelCategory() == ModelCategory.AutoEncoder) continue;
 
           // Generate input row
           for (int col = 0; col < features.length; col++) {
@@ -1785,6 +1785,9 @@ public abstract class Model<M extends Model<M,P,O>, P extends Model.Parameters, 
             if (col == 0 && omap != null) d = omap[(int) d]; // map categorical response to scoring domain
             double d2 = Double.NaN;
             switch (genmodel.getModelCategory()) {
+              case AutoEncoder:
+                d2 = ((AutoEncoderModelPrediction) p).reconstructed[col];
+                break;
               case Clustering:
                 d2 = ((ClusteringModelPrediction) p).cluster;
                 break;

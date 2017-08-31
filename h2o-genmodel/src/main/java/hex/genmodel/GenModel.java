@@ -153,7 +153,7 @@ public abstract class GenModel implements IGenModel, IGeneratedModel, Serializab
   }
 
   public int getPredsSize(ModelCategory mc) {
-    return (mc == ModelCategory.DimReduction)? nclasses() : getPredsSize();
+    return (mc == ModelCategory.DimReduction)? nclasses() :getPredsSize();
   }
 
   public static String createAuxKey(String k) {
